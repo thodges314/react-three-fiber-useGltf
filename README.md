@@ -1,1 +1,1 @@
-# react-three-fiber-boilerplate
+# react-three-fiber-second-lessons
