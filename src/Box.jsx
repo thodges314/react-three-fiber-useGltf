@@ -1,8 +1,10 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 const Box = (props) => {
   const ref = useRef();
-  console.log(ref);
+
+  useEffect(() => console.log(ref));
+
   return (
     <mesh {...props} ref={ref}>
       <boxGeometry />
