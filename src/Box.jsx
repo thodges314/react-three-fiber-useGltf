@@ -4,10 +4,9 @@ import { useFrame } from "@react-three/fiber";
 const Box = (props) => {
   const ref = useRef();
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     ref.current.rotation.x += 1 * delta;
     ref.current.rotation.y += 0.05 * delta;
-    ref.current.position.y = Math.sin(state.clock.getElapsedTime() * 2) / 2;
   });
 
   // useEffect(() => console.log(ref));
