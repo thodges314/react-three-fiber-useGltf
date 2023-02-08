@@ -1,9 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { Stats, OrbitControls } from "@react-three/drei";
 import {
-  BoxGeometry,
-  SphereGeometry,
-  DodecahedronGeometry,
   MeshBasicMaterial,
   MeshNormalMaterial,
   MeshPhongMaterial,
