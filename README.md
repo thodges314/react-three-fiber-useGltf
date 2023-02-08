@@ -1,1 +1,1 @@
-# react-three-fiber-second-lessons
+# react-three-fiber-lights
