@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { Stats } from "@react-three/drei";
+import { Stats, OrbitControls } from "@react-three/drei";
 import { BoxGeometry, SphereGeometry, DodecahedronGeometry } from "three";
 import Polyhedron from "./Polyhedron";
 
@@ -15,6 +15,7 @@ const App = () => {
       <Polyhedron position={[0.75, -0.75, 0]} polyhedreon={polyhedron} />
       <Polyhedron position={[-0.75, 0.75, 0]} polyhedreon={polyhedron} />
       <Polyhedron position={[0.75, 0.75, 0]} polyhedreon={polyhedron} />
+      <OrbitControls />
       <Stats />
     </Canvas>
   );
