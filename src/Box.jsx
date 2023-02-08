@@ -1,31 +1,32 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
+import { BoxGeometry, SphereGeometry } from "three";
 
 const Box = (props) => {
   const ref = useRef();
-  const [hovered, setHovered] = useState(false);
-  const [rotate, setRotate] = useState(false);
+
+  // const [rotate, setRotate] = useState(false);
+  const [count, setCount] = useState(0);
+  const geometry = useMemo(
+    () => [new BoxGeometry(), new SphereGeometry(0.785398)],
+    []
+  );
 
   useFrame((_, delta) => {
-    if (rotate) {
-      ref.current.rotation.x += 1 * delta;
-      ref.current.rotation.y += 0.05 * delta;
-    }
+    ref.current.rotation.x += 1 * delta;
+    ref.current.rotation.y += 0.05 * delta;
   });
 
-  // useEffect(() => console.log(ref));
+  useEffect(() => console.log(ref.current.geometry.uuid));
 
   return (
     <mesh
       {...props}
       ref={ref}
-      scale={hovered ? [1.1, 1.1, 1.1] : [1, 1, 1]}
-      onPointerOver={() => setHovered(true)}
-      onPointerOut={() => setHovered(false)}
-      onPointerDown={() => setRotate(!rotate)}
+      onPointerDown={() => setCount((count + 1) % 2)}
+      geometry={geometry[count]}
     >
-      <boxGeometry />
-      <meshBasicMaterial color={hovered ? 0xff0000 : 0x00ff00} wireframe />
+      <meshBasicMaterial color={"lime"} wireframe />
     </mesh>
   );
 };
