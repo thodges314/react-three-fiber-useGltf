@@ -5,8 +5,6 @@ const Polyhedron = ({ position, polyhedreon }) => {
   const ref = useRef();
   const [count, setCount] = useState(0);
 
-  console.log(polyhedreon);
-
   useFrame((_, delta) => {
     ref.current.rotation.x += delta;
     ref.current.rotation.y += 0.5 * delta;
