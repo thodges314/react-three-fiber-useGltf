@@ -1,14 +1,12 @@
 import { useRef } from "react";
 
 const Box = (props) => {
-  const instanceRef = useRef();
-  const materialRef = useRef();
-  console.log(instanceRef);
-  console.log(materialRef);
+  const ref = useRef();
+  console.log(ref);
   return (
-    <mesh {...props} ref={instanceRef}>
+    <mesh {...props} ref={ref}>
       <boxGeometry />
-      <meshBasicMaterial color={0x00ff00} wireframe ref={materialRef} />
+      <meshBasicMaterial color={0x00ff00} wireframe />
     </mesh>
   );
 };
