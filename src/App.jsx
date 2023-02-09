@@ -1,77 +1,30 @@
-import { useRef } from "react";
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-import { useControls } from "leva";
 import {
-  MeshBasicMaterial,
-  MeshNormalMaterial,
-  MeshPhongMaterial,
-  MeshStandardMaterial,
-  TextureLoader,
-} from "three";
-
-import { OrbitControls, Stats } from "@react-three/drei";
-import { Canvas, useLoader } from "@react-three/fiber";
-
-import Floor from "./Floor";
-import Polyhedron from "./Polyhedron";
-
-const Lights = () => {
-  const directionalRef = useRef();
-
-  useControls("Directional Light", {
-    intensity: {
-      value: 1,
-      min: 0,
-      max: 5,
-      step: 0.1,
-      onChange: (v) => (directionalRef.current.intensity = v),
-    },
-
-    position: {
-      x: 3.3,
-      y: 1.0,
-      z: 4.4,
-      onChange: (v) => directionalRef.current.position.copy(v),
-    },
-  });
-
-  return <directionalLight ref={directionalRef} castShadow />;
-};
+  Circle,
+  OrbitControls,
+  Stats,
+} from '@react-three/drei';
+import {
+  Canvas,
+  useLoader,
+} from '@react-three/fiber';
 
 const App = () => {
-  const texture = useLoader(TextureLoader, "./img/grid.png");
+  const gltf = useLoader(GLTFLoader, "./models/monkey.glb");
   return (
-    <Canvas shadows camera={{ position: [4, 4, 1.5] }}>
-      <Lights />
-      <Polyhedron
-        name="meshBasicMaterial"
-        position={[-3, 1, 0]}
-        material={new MeshBasicMaterial({ map: texture })}
+    <Canvas shadows camera={{ position: [-0.5, 1, 2] }}>
+      <directionalLight position={[3.3, 1.0, 4.4]} castShadow />
+      <primitive
+        object={gltf.scene}
+        position={[0, 1, 0]}
+        children-0-castShadow
       />
-      <Polyhedron
-        name="meshNormalMaterial"
-        position={[-1, 1, 0]}
-        material={new MeshNormalMaterial({ flatShading: true })}
-      />
-      <Polyhedron
-        name="meshPhongMaterial"
-        position={[1, 1, 0]}
-        material={new MeshPhongMaterial({ map: texture, flatShading: true })}
-      />
-      <Polyhedron
-        name="meshStandardMaterial"
-        position={[3, 1, 0]}
-        material={
-          new MeshStandardMaterial({
-            map: texture,
-            flatShading: true,
-          })
-        }
-      />
-      <Floor />
-      <OrbitControls target={[2, 2, 0]} />
+      <Circle args={[10]} rotation-x={-Math.PI / 2} receiveShadow>
+        <meshStandardMaterial />
+      </Circle>
+      <OrbitControls target={[0, 1, 0]} />
       <axesHelper args={[5]} />
-      <gridHelper />
       <Stats />
     </Canvas>
   );
