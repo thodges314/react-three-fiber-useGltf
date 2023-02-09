@@ -1,6 +1,6 @@
-import { useRef } from 'react';
+import { useRef } from "react";
 
-import { useFrame } from '@react-three/fiber';
+import { useFrame } from "@react-three/fiber";
 
 const Polyhedron = (props) => {
   const ref = useRef(); // ref defined here and used in poth controls and to attach to mesh
@@ -10,7 +10,7 @@ const Polyhedron = (props) => {
   });
 
   return (
-    <mesh {...props} ref={ref}>
+    <mesh {...props} ref={ref} castShadow receiveShadow>
       <icosahedronGeometry args={[1, 1]} />
     </mesh>
   );

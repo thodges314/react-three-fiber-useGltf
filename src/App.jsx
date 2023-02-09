@@ -1,8 +1,5 @@
-import { useRef } from "react";
-
 import { useControls } from "leva";
 import {
-  Color,
   MeshBasicMaterial,
   MeshNormalMaterial,
   MeshPhongMaterial,
@@ -12,92 +9,135 @@ import {
 import { OrbitControls, Stats } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
+import Floor from "./Floor";
 import Polyhedron from "./Polyhedron";
 
 const Lights = () => {
-  const ambientRef = useRef();
-  const directionalRef = useRef();
-  const pointRef = useRef();
-  const spotRef = useRef();
+  // const ambientRef = useRef();
+  // const directionalRef = useRef();
+  // const pointRef = useRef();
+  // const spotRef = useRef();
 
-  useControls("Ambient Light", {
+  const ambientCtl = useControls("Ambient Light", {
     visible: {
       value: false,
-      onChange: (v) => (ambientRef.current.visible = v),
     },
     color: {
       value: "white",
-      onChange: (v) => (ambientRef.current.color = new Color(v)),
+    },
+    intensity: {
+      value: 1.0,
+      min: 0,
+      max: 1.0,
+      step: 0.1,
     },
   });
 
-  useControls("Directional Light", {
+  const directionalCtl = useControls("Directional Light", {
     visible: {
       value: true,
-      onChange: (v) => (directionalRef.current.visible = v),
     },
     position: {
-      x: 1,
-      y: 1,
-      z: 1,
-      onChange: (v) => directionalRef.current.position.copy(v),
+      x: 3.3,
+      y: 1.0,
+      z: 4.4,
     },
     color: {
       value: "white",
-      onChange: (v) => (directionalRef.current.color = new Color(v)),
+    },
+    castShadow: {
+      value: true,
     },
   });
 
-  useControls("Point Light", {
+  const pointCtl = useControls("Point Light", {
     visible: {
       value: false,
-      onChange: (v) => (pointRef.current.visible = v),
     },
     position: {
       x: 2,
       y: 0,
       z: 0,
-      onChange: (v) => pointRef.current.position.copy(v),
     },
     color: {
       value: "white",
-      onChange: (v) => (pointRef.current.color = new Color(v)),
+    },
+    castShadow: {
+      value: true,
     },
   });
 
-  useControls("Spot Light", {
+  const spotCtl = useControls("Spot Light", {
     visible: {
       value: false,
-      onChange: (v) => (spotRef.current.visible = v),
     },
     position: {
       x: 3,
       y: 2.5,
       z: 2,
-      onChange: (v) => spotRef.current.position.copy(v),
     },
     color: {
       value: "white",
-      onChange: (v) => (spotRef.current.color = new Color(v)),
+    },
+    castShadow: {
+      value: true,
     },
   });
   return (
     <>
-      <ambientLight ref={ambientRef} />
-      <directionalLight ref={directionalRef} />
-      <pointLight ref={pointRef}>
-        <mesh>
+      <ambientLight
+        visible={ambientCtl.visible}
+        color={ambientCtl.color}
+        intensity={ambientCtl.intensity}
+      />
+      <directionalLight
+        visible={directionalCtl.visible}
+        color={directionalCtl.color}
+        intensity={directionalCtl.intensity}
+        castShadow={directionalCtl.castShadow}
+        position={[
+          directionalCtl.position.x,
+          directionalCtl.position.y,
+          directionalCtl.position.z,
+        ]}
+      >
+        <mesh material={new MeshBasicMaterial({ color: directionalCtl.color })}>
+          <sphereGeometry args={[0.25]} />
+        </mesh>
+      </directionalLight>
+      <pointLight
+        visible={pointCtl.visible}
+        color={pointCtl.color}
+        intensity={pointCtl.intensity}
+        castShadow={pointCtl.castShadow}
+        position={[
+          pointCtl.position.x,
+          pointCtl.position.y,
+          pointCtl.position.z,
+        ]}
+      >
+        <mesh material={new MeshBasicMaterial({ color: pointCtl.color })}>
           <sphereGeometry args={[0.25]} />
         </mesh>
       </pointLight>
-      <spotLight ref={spotRef} />
+      <spotLight
+        visible={spotCtl.visible}
+        color={spotCtl.color}
+        intensity={spotCtl.intensity}
+        castShadow={spotCtl.castShadow}
+        position={[spotCtl.position.x, spotCtl.position.y, spotCtl.position.z]}
+      >
+        <mesh material={new MeshBasicMaterial({ color: spotCtl.color })}>
+          <sphereGeometry args={[0.25]} />
+        </mesh>
+      </spotLight>
     </>
   );
 };
 
 const App = () => {
   return (
-    <Canvas camera={{ position: [4, 4, 1.5] }}>
+    <Canvas shadows camera={{ position: [4, 4, 1.5] }}>
       <Lights />
       <Polyhedron
         name="meshBasicMaterial"
@@ -124,6 +164,7 @@ const App = () => {
           })
         }
       />
+      <Floor />
       <OrbitControls target={[2, 2, 0]} />
       <axesHelper args={[5]} />
       <gridHelper />
