@@ -1,1 +1,1 @@
-# react-three-fiber-loader
+# react-three-fiber-gltfLoader
