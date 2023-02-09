@@ -15,7 +15,7 @@ const App = () => {
         children-0-castShadow
       />
 
-      <OrbitControls target={[0, 1, 0]} />
+      <OrbitControls target={[0, 1, 0]} autoRotate />
       <axesHelper args={[5]} />
       <Stats />
     </Canvas>
